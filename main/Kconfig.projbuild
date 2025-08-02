@@ -1,0 +1,204 @@
+menu "Xiaozhi Assistant"
+
+config OTA_URL
+    string "Default OTA URL"
+    default "https://api.tenclass.net/xiaozhi/ota/"
+    help
+        The application will access this URL to check for new firmwares and server address.
+
+
+choice
+    prompt "Default Language"
+    default LANGUAGE_ZH_CN
+    help
+        Select device display language
+
+    config LANGUAGE_ZH_CN
+        bool "Chinese"
+    config LANGUAGE_ZH_TW
+        bool "Chinese Traditional"
+    config LANGUAGE_EN_US
+        bool "English"
+    config LANGUAGE_JA_JP
+        bool "Japanese"
+endchoice
+
+choice BOARD_TYPE
+    prompt "Board Type"
+    default BOARD_TYPE_XIAOXIN_ESP32S3_096
+    help
+        Board type. 开发板类型
+    config BOARD_TYPE_XIAOXIN_ESP32S3
+         bool "xiaoxin_esp32s3"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_TOUCH
+        bool "xiaoxin_esp32s3_touch"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_096
+        bool "xiaoxin_esp32s3_096"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_028
+        bool "xiaoxin_esp32s3_028"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_154
+        bool "xiaoxin_esp32s3_154"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_4G
+        bool "xiaoxin_esp32s3_4G"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_154_4G
+        bool "xiaoxin_esp32s3_154_4G"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_154_WIFI
+        bool "xiaoxin_esp32s3_154_wifi"
+    config BOARD_TYPE_xiaoxin_zhi
+        bool "xiaoxin_zhi"
+    config BOARD_TYPE_XIAOXIN_ESP32S3_LANKA
+        bool "xiaoxin_esp32s3_lanka"
+endchoice
+
+choice ESP_S3_LCD_EV_Board_Version_TYPE
+    depends on BOARD_TYPE_ESP_S3_LCD_EV_Board
+    prompt "EV_BOARD Type"
+    default ESP_S3_LCD_EV_Board_1p4
+    help
+        开发板硬件版本型号选择
+    config ESP_S3_LCD_EV_Board_1p4
+        bool "乐鑫ESP32_S3_LCD_EV_Board-MB_V1.4"
+    config ESP_S3_LCD_EV_Board_1p5
+        bool "乐鑫ESP32_S3_LCD_EV_Board-MB_V1.5"
+endchoice
+
+choice DISPLAY_OLED_TYPE
+    depends on BOARD_TYPE_BREAD_COMPACT_WIFI || BOARD_TYPE_BREAD_COMPACT_ML307 || BOARD_TYPE_BREAD_COMPACT_ESP32
+    prompt "OLED Type"
+    default OLED_SSD1306_128X32
+    help
+        OLED 屏幕类型选择
+    config OLED_SSD1306_128X32
+        bool "SSD1306, 分辨率128*32"
+    config OLED_SSD1306_128X64
+        bool "SSD1306, 分辨率128*64"
+    config OLED_SH1106_128X64
+        bool "SH1106, 分辨率128*64"
+endchoice
+
+choice DISPLAY_LCD_TYPE
+    depends on BOARD_TYPE_BREAD_COMPACT_WIFI_LCD || BOARD_TYPE_BREAD_COMPACT_ESP32_LCD || BOARD_TYPE_ESP32_CGC || BOARD_TYPE_ESP32P4_NANO || BOARD_TYPE_ESP32P4_WIFI6_Touch_LCD_XC || BOARD_TYPE_BREAD_COMPACT_WIFI_CAM
+    prompt "LCD Type"
+    default LCD_ST7789_240X320
+    help
+        屏幕类型选择
+    config LCD_ST7789_240X320
+        bool "ST7789, 分辨率240*320, IPS"
+    config LCD_ST7789_240X320_NO_IPS
+        bool "ST7789, 分辨率240*320, 非IPS"
+    config LCD_ST7789_170X320
+        bool "ST7789, 分辨率170*320"
+    config LCD_ST7789_172X320
+        bool "ST7789, 分辨率172*320"
+    config LCD_ST7789_240X280
+        bool "ST7789, 分辨率240*280"
+    config LCD_ST7789_240X240
+        bool "ST7789, 分辨率240*240"
+    config LCD_ST7789_240X240_7PIN
+        bool "ST7789, 分辨率240*240, 7PIN"
+    config LCD_ST7789_240X135
+        bool "ST7789, 分辨率240*135"
+    config LCD_ST7735_128X160
+        bool "ST7735, 分辨率128*160"
+    config LCD_ST7735_128X128
+        bool "ST7735, 分辨率128*128"
+    config LCD_ST7796_320X480
+        bool "ST7796, 分辨率320*480 IPS"
+    config LCD_ST7796_320X480_NO_IPS
+        bool "ST7796, 分辨率320*480, 非IPS"
+    config LCD_ILI9341_240X320
+        bool "ILI9341, 分辨率240*320"
+    config LCD_ILI9341_240X320_NO_IPS
+        bool "ILI9341, 分辨率240*320, 非IPS"
+    config LCD_GC9A01_240X240
+        bool "GC9A01, 分辨率240*240, 圆屏"
+    config LCD_TYPE_800_1280_10_1_INCH
+        bool "Waveshare 101M-8001280-IPS-CT-K Display"
+    config LCD_TYPE_800_1280_10_1_INCH_A
+        bool "Waveshare 10.1-DSI-TOUCH-A Display"
+    config LCD_TYPE_800_800_3_4_INCH
+        bool "Waveshare ESP32-P4-WIFI6-Touch-LCD-3.4C with 800*800 3.4inch round display"
+    config LCD_TYPE_720_720_4_INCH
+        bool "Waveshare ESP32-P4-WIFI6-Touch-LCD-4C with 720*720 4inch round display"
+    config LCD_CUSTOM
+        bool "自定义屏幕参数"
+endchoice
+
+choice DISPLAY_ESP32S3_KORVO2_V3
+    depends on BOARD_TYPE_ESP32S3_KORVO2_V3
+    prompt "ESP32S3_KORVO2_V3 LCD Type"
+    default LCD_ST7789
+    help
+        屏幕类型选择
+    config LCD_ST7789
+        bool "ST7789, 分辨率240*280"
+    config LCD_ILI9341
+        bool "ILI9341, 分辨率240*320"
+endchoice
+
+config USE_WECHAT_MESSAGE_STYLE
+    bool "Enable WeChat Message Style"
+    default n
+    help
+        使用微信聊天界面风格
+
+config USE_ESP_WAKE_WORD
+    bool "Enable Wake Word Detection (without AFE)"
+    default n
+    depends on IDF_TARGET_ESP32C3 || IDF_TARGET_ESP32C5 || IDF_TARGET_ESP32C6 || (IDF_TARGET_ESP32 && SPIRAM)
+    help
+        支持 ESP32 C3、ESP32 C5 与 ESP32 C6，增加ESP32支持（需要开启PSRAM）
+
+config USE_AFE_WAKE_WORD
+    bool "Enable Wake Word Detection (AFE)"
+    default y
+    depends on (IDF_TARGET_ESP32S3 || IDF_TARGET_ESP32P4) && SPIRAM
+    help
+        需要 ESP32 S3 与 PSRAM 支持
+
+config USE_AUDIO_PROCESSOR
+    bool "Enable Audio Noise Reduction"
+    default y
+    depends on (IDF_TARGET_ESP32S3 || IDF_TARGET_ESP32P4) && SPIRAM
+    help
+        需要 ESP32 S3 与 PSRAM 支持
+
+config USE_DEVICE_AEC
+    bool "Enable Device-Side AEC"
+    default n
+        depends on USE_AUDIO_PROCESSOR && (BOARD_TYPE_ESP_BOX_3 || BOARD_TYPE_ESP_BOX || BOARD_TYPE_ESP_BOX_LITE || BOARD_TYPE_LICHUANG_DEV || BOARD_TYPE_ESP32S3_KORVO2_V3 || BOARD_TYPE_ESP32S3_Touch_AMOLED_1_75 || BOARD_TYPE_ESP32P4_WIFI6_Touch_LCD_4B || BOARD_TYPE_ESP32P4_WIFI6_Touch_LCD_XC)
+    help
+        因为性能不够，不建议和微信聊天界面风格同时开启
+
+config USE_SERVER_AEC
+    bool "Enable Server-Side AEC (Unstable)"
+    default n
+    depends on USE_AUDIO_PROCESSOR
+    help
+        启用服务器端 AEC，需要服务器支持
+
+config USE_AUDIO_DEBUGGER
+    bool "Enable Audio Debugger"
+    default n
+    help
+        启用音频调试功能，通过UDP发送音频数据
+
+config AUDIO_DEBUG_UDP_SERVER
+    string "Audio Debug UDP Server Address"
+    default "192.168.2.100:8000"
+    depends on USE_AUDIO_DEBUGGER
+    help
+        UDP服务器地址，格式: IP:PORT，用于接收音频调试数据
+
+choice IOT_PROTOCOL
+    prompt "IoT Protocol"
+    default IOT_PROTOCOL_MCP
+    help
+        IoT 协议，用于获取设备状态与发送控制指令
+    config IOT_PROTOCOL_MCP
+        bool "MCP 2024-11-05"
+    config IOT_PROTOCOL_XIAOZHI
+        bool "Xiaozhi IoT 1.0 (Deprecated)"
+endchoice
+
+endmenu
