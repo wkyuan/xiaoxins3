@@ -16,9 +16,13 @@ class GpioLed : public Led {
     GpioLed(gpio_num_t gpio, int output_invert);
     GpioLed(gpio_num_t gpio, int output_invert, ledc_timer_t timer_num, ledc_channel_t channel);
     virtual ~GpioLed();
+<<<<<<< HEAD
     void BlinkOnce();
     void Blink(int times, int interval_ms);
     void StartContinuousBlink(int interval_ms);
+=======
+
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
     void OnStateChanged() override;
     void TurnOn();
     void TurnOff();
@@ -38,7 +42,13 @@ class GpioLed : public Led {
     void StartBlinkTask(int times, int interval_ms);
     void OnBlinkTimer();
 
+<<<<<<< HEAD
 
+=======
+    void BlinkOnce();
+    void Blink(int times, int interval_ms);
+    void StartContinuousBlink(int interval_ms);
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
     void StartFadeTask();
     void OnFadeEnd();
     static bool IRAM_ATTR FadeCallback(const ledc_cb_param_t *param, void *user_arg);

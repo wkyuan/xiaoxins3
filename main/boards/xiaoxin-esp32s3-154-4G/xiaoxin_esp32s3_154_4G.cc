@@ -35,6 +35,7 @@ private:
     Button volume_up_button_;
     Button volume_down_button_;
     Display* display_;
+<<<<<<< HEAD
     PowerManager* power_manager_;
     esp_lcd_panel_io_handle_t panel_io_ = nullptr;
     esp_lcd_panel_handle_t panel_ = nullptr;
@@ -54,6 +55,26 @@ private:
             }
         });
     }
+=======
+    //PowerManager* power_manager_;
+    esp_lcd_panel_io_handle_t panel_io_ = nullptr;
+    esp_lcd_panel_handle_t panel_ = nullptr;
+    // void InitializePowerManager() {
+    //     gpio_set_direction(GPIO_NUM_37, GPIO_MODE_OUTPUT);     // ADC_CTRL 输出模式
+    //     gpio_set_level(GPIO_NUM_37, 1); // 打开开关，让 VBAT 通过分压电路接入 ADC
+    //     vTaskDelay(pdMS_TO_TICKS(10)); // 等待电压稳定
+    //     power_manager_ = new PowerManager(GPIO_NUM_2);
+    //     power_manager_->OnChargingStatusChanged([this](bool is_charging) {
+    //         if (is_charging) {
+    //             ESP_LOGI("PowerManager", "Charging");
+    //             //power_save_timer_->SetEnabled(false);
+    //         } else {
+    //             ESP_LOGI("PowerManager", "Discharging");
+    //             //power_save_timer_->SetEnabled(true);
+    //         }
+    //     });
+    // }
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
     void InitializeCodecI2c() {
         // Initialize I2C peripheral
         i2c_master_bus_config_t i2c_bus_cfg = {
@@ -145,6 +166,7 @@ private:
             ESP_LOGI(TAG, "boot_button_ OnDoubleClick");
             SwitchNetworkType();
         });
+<<<<<<< HEAD
         // power_key_button_.OnClick([this]() {
         //     ESP_LOGI(TAG, "power_key_button_ OnClick");
         //     if (GetBacklight()->brightness() < 100) {
@@ -161,6 +183,24 @@ private:
         //         vTaskDelay(pdMS_TO_TICKS(10)); // 等待电平稳定（可选）
         //     }
         // });
+=======
+        power_key_button_.OnClick([this]() {
+            ESP_LOGI(TAG, "power_key_button_ OnClick");
+            if (GetBacklight()->brightness() < 100) {
+                GetBacklight()->SetBrightness(100);
+                gpio_reset_pin(GPIO_NUM_3);
+                gpio_set_direction(GPIO_NUM_3, GPIO_MODE_OUTPUT);
+                gpio_set_level(GPIO_NUM_3, 1);
+                vTaskDelay(pdMS_TO_TICKS(10)); // 等待电平稳定（可选）
+            } else {
+                GetBacklight()->SetBrightness(0);
+                gpio_reset_pin(GPIO_NUM_3);
+                gpio_set_direction(GPIO_NUM_3, GPIO_MODE_OUTPUT);
+                gpio_set_level(GPIO_NUM_3, 0);
+                vTaskDelay(pdMS_TO_TICKS(10)); // 等待电平稳定（可选）
+            }
+        });
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
         power_key_button_.OnLongPress([this]() {
             ESP_LOGI(TAG, "power_key_button_ OnLongPress");
             gpio_reset_pin(GPIO_NUM_3);
@@ -230,6 +270,7 @@ public:
         gpio_set_level(GPIO_NUM_38, 1);
         vTaskDelay(pdMS_TO_TICKS(10)); // 等待电平稳定（可选）
         ESP_LOGI(TAG, "GPIO_NUM_38: %d", gpio_get_level(GPIO_NUM_38));
+<<<<<<< HEAD
         gpio_reset_pin(ML307_RST_PIN);
         gpio_set_direction(ML307_RST_PIN, GPIO_MODE_OUTPUT);
         gpio_set_level(ML307_RST_PIN, 1);
@@ -240,6 +281,9 @@ public:
         vTaskDelay(pdMS_TO_TICKS(10)); // 等待电平稳定（可选）
 
         InitializePowerManager();
+=======
+        //InitializePowerManager();
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
         InitializeCodecI2c();
         InitializeSpi();
         InitializeSt7789Display();
@@ -255,6 +299,7 @@ public:
     //     static SingleLed led_strip(BUILTIN_LED_GPIO);
     //     return &led_strip;
     // }
+<<<<<<< HEAD
     virtual bool GetBatteryLevel(int& level, bool& charging, bool& discharging) override {
         static bool last_discharging = false;
         charging = power_manager_->IsCharging();
@@ -266,6 +311,19 @@ public:
         level = power_manager_->GetBatteryLevel();
         return true;
     }
+=======
+    // virtual bool GetBatteryLevel(int& level, bool& charging, bool& discharging) override {
+    //     static bool last_discharging = false;
+    //     charging = power_manager_->IsCharging();
+    //     discharging = power_manager_->IsDischarging();
+    //     if (discharging != last_discharging) {
+    //         //power_save_timer_->SetEnabled(discharging);
+    //         last_discharging = discharging;
+    //     }
+    //     level = power_manager_->GetBatteryLevel();
+    //     return true;
+    // }
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
     virtual Display* GetDisplay() override {
         return display_;
     }

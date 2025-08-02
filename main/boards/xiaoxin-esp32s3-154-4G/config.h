@@ -6,10 +6,13 @@
 #include <driver/gpio.h>
 #define ML307_TX_PIN GPIO_NUM_43
 #define ML307_RX_PIN GPIO_NUM_44    
+<<<<<<< HEAD
 #define ML307_RST_PIN GPIO_NUM_42
 #define ADC_PA_PIN GPIO_NUM_41
 #define CHRG_PIN GPIO_NUM_2
 
+=======
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
 #define AUDIO_INPUT_SAMPLE_RATE  16000
 #define AUDIO_OUTPUT_SAMPLE_RATE 16000
 
@@ -24,7 +27,11 @@
 #define AUDIO_CODEC_I2C_SCL_PIN  GPIO_NUM_18
 #define AUDIO_CODEC_ES8311_ADDR  ES8311_CODEC_DEFAULT_ADDR
 
+<<<<<<< HEAD
 #define BUILTIN_LED_GPIO        GPIO_NUM_40
+=======
+#define BUILTIN_LED_GPIO        GPIO_NUM_NC
+>>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
 #define POWER_KEY_GPIO          GPIO_NUM_10
 #define BOOT_BUTTON_GPIO        GPIO_NUM_9
 #define VOLUME_UP_BUTTON_GPIO   GPIO_NUM_15
