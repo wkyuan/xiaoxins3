@@ -5,7 +5,7 @@ config OTA_URL
     default "https://api.tenclass.net/xiaozhi/ota/"
     help
         The application will access this URL to check for new firmwares and server address.
-
+    
 
 choice
     prompt "Default Language"
@@ -141,6 +141,13 @@ config USE_WECHAT_MESSAGE_STYLE
     default n
     help
         使用微信聊天界面风格
+
+
+config USE_BLUFI
+    bool "Enable Blufi"
+    default n
+    help
+        使用Blufi连接WiFi
 
 config USE_ESP_WAKE_WORD
     bool "Enable Wake Word Detection (without AFE)"

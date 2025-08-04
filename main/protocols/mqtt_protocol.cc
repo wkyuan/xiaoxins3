@@ -315,13 +315,8 @@ void MqttProtocol::ParseServerHello(const cJSON* root) {
     auto key = cJSON_GetObjectItem(udp, "key")->valuestring;
     auto nonce = cJSON_GetObjectItem(udp, "nonce")->valuestring;
 
-<<<<<<< HEAD
     //auto encryption = cJSON_GetObjectItem(udp, "encryption")->valuestring;
     ESP_LOGI(TAG, "UDP server: %s, port: %d", udp_server_.c_str(), udp_port_);
-=======
-    // auto encryption = cJSON_GetObjectItem(udp, "encryption")->valuestring;
-    // ESP_LOGI(TAG, "UDP server: %s, port: %d, encryption: %s", udp_server_.c_str(), udp_port_, encryption);
->>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
     aes_nonce_ = DecodeHexString(nonce);
     mbedtls_aes_init(&aes_ctx_);
     mbedtls_aes_setkey_enc(&aes_ctx_, (const unsigned char*)DecodeHexString(key).c_str(), 128);

@@ -16,7 +16,7 @@
 #include <tls_transport.h>
 #include <web_socket.h>
 #include <esp_log.h>
-
+#include <doit_blufi.h>
 #include <wifi_station.h>
 #include <wifi_configuration_ap.h>
 #include <ssid_manager.h>
@@ -39,7 +39,16 @@ std::string WifiBoard::GetBoardType() {
 void WifiBoard::EnterWifiConfigMode() {
     auto& application = Application::GetInstance();
     application.SetDeviceState(kDeviceStateWifiConfiguring);
+#ifdef CONFIG_USE_BLUFI
+    doit_blufi_init();
+    // 显示 WiFi 配置 AP 的 SSID 和 Web 服务器 URL
+    std::string hint = "使用APP添加设备";
 
+    hint += "\n\n";
+
+    // 播报配置 WiFi 的提示
+    application.Alert(Lang::Strings::WIFI_CONFIG_MODE, hint.c_str(), "", Lang::Sounds::P3_WIFICONFIG);
+#else
     auto& wifi_ap = WifiConfigurationAp::GetInstance();
     wifi_ap.SetLanguage(Lang::CODE);
     wifi_ap.SetSsidPrefix("Xiaozhi");
@@ -62,8 +71,50 @@ void WifiBoard::EnterWifiConfigMode() {
         ESP_LOGI(TAG, "Free internal: %u minimal internal: %u", free_sram, min_free_sram);
         vTaskDelay(pdMS_TO_TICKS(10000));
     }
+#endif
 }
+#ifdef CONFIG_USE_BLUFI
+void WifiBoard::StartNetwork() {
+    // User can press BOOT button while starting to enter WiFi configuration mode
+    uint8_t is_config = 0;
+    bool has_config = blufi_storage_read_has_config();
 
+    auto display = Board::GetInstance().GetDisplay();
+    if( has_config == 0) {
+        // If not configured, enter WiFi configuration mode
+        EnterWifiConfigMode();
+    } else {
+        // Otherwise, start the WiFi station
+        is_config = 1;
+
+        // auto& wifi_station = WifiStation::GetInstance();
+        // wifi_station.Start();
+        blufi_wifi_start_connect() ;
+        std::string notification = Lang::Strings::CONNECT_TO;
+        notification += "wifi";
+        notification += "...";
+        display->ShowNotification(notification.c_str(), 30000);
+    }
+
+ 
+    uint8_t wait_cnt = 0;
+    while (1) {
+        wait_cnt += 1;
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        if (blufi_wifi_sta_get_connect_status()) {
+            break;
+        }
+        if(wait_cnt > 180){ // 3 minutes
+            EnterWifiConfigMode();
+            return;
+        }
+    }
+    std::string conn_notification = Lang::Strings::CONNECTED_TO;
+    display->ShowNotification(conn_notification.c_str(), 30000);
+
+    vTaskDelay(pdMS_TO_TICKS(1000));
+}
+#else
 void WifiBoard::StartNetwork() {
     // User can press BOOT button while starting to enter WiFi configuration mode
     if (wifi_config_mode_) {
@@ -108,7 +159,7 @@ void WifiBoard::StartNetwork() {
         return;
     }
 }
-
+#endif
 Http* WifiBoard::CreateHttp() {
     return new EspHttp();
 }
