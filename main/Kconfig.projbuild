@@ -46,11 +46,8 @@ choice BOARD_TYPE
         bool "xiaoxin_esp32s3_154_wifi"
     config BOARD_TYPE_xiaoxin_zhi
         bool "xiaoxin_zhi"
-<<<<<<< HEAD
     config BOARD_TYPE_XIAOXIN_ESP32S3_LANKA
         bool "xiaoxin_esp32s3_lanka"
-=======
->>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
 endchoice
 
 choice ESP_S3_LCD_EV_Board_Version_TYPE

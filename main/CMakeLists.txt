@@ -23,10 +23,6 @@ set(SOURCES "audio_codecs/audio_codec.cc"
             "settings.cc"
             "background_task.cc"
             "main.cc"
-<<<<<<< HEAD
-
-=======
->>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
             )
 
 set(INCLUDE_DIRS "." "display" "audio_codecs" "protocols" "audio_processing")
@@ -59,11 +55,8 @@ elseif(CONFIG_BOARD_TYPE_XIAOXIN_ESP32S3_154_WIFI)
     set(BOARD_TYPE "xiaoxin-esp32s3-154-wifi")
 elseif(CONFIG_BOARD_TYPE_xiaoxin_zhi)
     set(BOARD_TYPE "xiaoxin-zhi")
-<<<<<<< HEAD
 elseif(CONFIG_BOARD_TYPE_XIAOXIN_ESP32S3_LANKA)
     set(BOARD_TYPE "xiaoxin-esp32s3-lanka")
-=======
->>>>>>> a49933ceca30d51ede38823163ec57a749addaf3
 endif()
 file(GLOB BOARD_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/boards/${BOARD_TYPE}/*.cc
